@@ -1,0 +1,45 @@
+{
+	"id": 0,
+	"title": "Rock Band Tier List",
+	"author": "Colind8",
+    "version": 1,
+    "showrankings": "true",
+	"tierdata": [
+		{
+			"tiername": "S",
+			"tiercolor": "#37370a",
+			"tierdata": [
+		        {
+		          "name": "Foo Fighters - Learn to Fly",
+		          "link": "https://www.youtube.com/watch?v=1VQ_3sBZEm0&t=30s",
+		          "desc": "It's just such an amazing song and it's incredibly fun to play!",
+		          "image": "https://upload.wikimedia.org/wikipedia/en/8/8b/Foo_Fighters_-_There_Is_Nothing_Left_to_Lose.jpg"
+		        },
+		        {
+		          "name": "Metallica - Enter Sandman",
+		          "link": "https://www.youtube.com/watch?v=CD-E-LDc384",
+		          "desc": "My all-time favorite Metallica song.",
+		          "image": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c8/Metallica_-_Enter_Sandman_cover.jpg/220px-Metallica_-_Enter_Sandman_cover.jpg"
+		        },
+		        {
+		          "name": "SoundGarden - Black Hole Sun",
+		          "link": "https://www.youtube.com/watch?v=3mbBbFH9fAg",
+		          "desc": "Has the power to put anyone into a chance with its wicked guitar and heavenly singing",
+		          "image": "https://upload.wikimedia.org/wikipedia/en/3/3a/Superunknown.jpg"
+		        },
+		        {
+		          "name": "Faith No More - Epic",
+		          "link": "https://www.youtube.com/watch?v=ZG_k5CSYKhg",
+		          "desc": "An incredibly fun song with an absolutely beautiful ending",
+		          "image": "https://upload.wikimedia.org/wikipedia/en/8/89/The_Real_Thing_album_cover.jpg"
+		        },
+		        {
+		          "name": "Coheed and Cambria - Welcome Home",
+		          "link": "https://www.youtube.com/watch?v=n0H3RlaQVrM",
+		          "desc": "You can just FEEL the emotion penetrating your earholes.",
+		          "image": "https://upload.wikimedia.org/wikipedia/en/5/59/Good_Apollo.jpg"
+		        }
+			]
+		}
+	]
+}
