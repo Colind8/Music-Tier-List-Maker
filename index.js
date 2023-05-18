@@ -23,18 +23,19 @@ app.listen(3000, () => {
 
 function makelisthtml(val) {
 	listhtml = "<!DOCTYPE html><html><head>";
-	listhtml += "<title>" + val.title + " | MTLM</title>";
-	listhtml += `<meta name="description" content="${val.description}">`;
-	listhtml += `<meta content="${val.title} | MTLM" property="og:title" />`;
-	listhtml += `<meta content="${val.description}" property="og:description" />`;
+	listhtml += `<title>Test | MTLM</title>`;
+	listhtml += `<meta name="description" content="test">`;
+	listhtml += `<meta content="test | MTLM" property="og:title" />`;
+	listhtml += `<meta content="test" property="og:description" />`;
+	listhtml += `<link href="/static/style.css" rel="stylesheet" type="text/css" />`
 	listhtml += "</head><body>";
 	listhtml += `<div id="content">`
- 	listhtml += "<h1>Loading tier list...</h1>";
-	listhtml += `<p style='display: none' id='data'>${JSON.stringify(val)}</p></div>`
-	listhtml += `<div id="footer"></div>`
-	listhtml += "<script src='/static/client.js'></script></body></html>"
+	listhtml += "<h1>Loading tier list...</h1>";
+	listhtml += `<p style='display: none' id='data'>${val}</p></div>`
+	listhtml += `<div id="footer"></div><div id="tooltip"></div>`
+	listhtml += `<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script><script src='/static/client.js'></script></body></html>`
 	return listhtml;
 }
 
-//const sample = require("./sample.json")
-//db.set("0", sample).then(() => {});
+//const sample = ``;
+//db.set("0", sample).then(() => { });

@@ -1,11 +1,13 @@
 {
-	"id": 0,
-	"title": "Rock Band Tier List",
-	"author": "Colind8",
-	"description": "This is my Rock Band tier list!",
-    "version": 1,
-    "showrankings": "true",
-	"tierdata": [
+	"data": {
+		"id": 0,
+		"title": "Rock Band Tier List",
+		"author": "Colind8",
+		"description": "This is my Rock Band tier list!",
+	    "version": 1,
+	    "showrankings": "true"
+	},
+	"tiers": [
 		{
 			"tiername": "S",
 			"tiercolor": "#37370a",
