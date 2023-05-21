@@ -308,3 +308,29 @@ button {
 .toggle_off {
 	border-color: red;
 }
+
+#submit_form {
+	display: flex;
+    flex-direction: column;
+}
+
+#home_main {
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#footer {
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.menu_item {
+	margin-top: 4px;
+	margin-bottom: 4px;
+	list-style-type: circle;
+}
+.menu_item:hover {
+	list-style-type: disc;
+}

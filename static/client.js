@@ -13,7 +13,7 @@ function generate_content() {
 	document.getElementById('title').innerHTML = TLobj.data.title;
 	document.getElementById('author').innerHTML = TLobj.data.author;
 	document.getElementById('desc').innerHTML = TLobj.data.description;
-	document.getElementById('footer').innerHTML = `<hr></hr><p>Music Tier List Maker by Colind8</p><a href="/editor.html">Create your own</a>`;
+	document.getElementById('footer').innerHTML = `<hr></hr><p>Music Tier List Maker by Colind8</p><a href="/">Create your own</a><br /><a href="/editor/${window.location.href.slice(51)}">Use this Tier List as a template</a>`;
 	generate_tierlist();
 }
 
@@ -52,7 +52,10 @@ function generate_tierlist() {
 				tierhtml += `<a target="_blank" href="${TLobj.tiers[i].tierdata[i2].link}">`
 			}
 			tierhtml += `<img src="${TLobj.tiers[i].tierdata[i2].image}" alt="${TLobj.tiers[i].tierdata[i2].name}" draggable="false" title="" style="">`
-			tierhtml += `</a></div>`
+			if (TLobj.tiers[i].tierdata[i2].link != "") {
+				tierhtml += `</a>`
+			}
+			tierhtml += `</div>`
 			tierindex++;
 		}
 		tierhtml += `</div></div>`
