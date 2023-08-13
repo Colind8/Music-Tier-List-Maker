@@ -95,7 +95,7 @@ function generate_tooltip(el) {
 	editor_tooltip_html += `<p id="tt_u" class="editable imglink" contenteditable="plaintext-only">${el.getAttribute('data-itemurl')}</p>`;
 	editor_tooltip_html += `<p>Image URL:</p>`
 	editor_tooltip_html += `<p id="tt_i" class="editable imglink" contenteditable="plaintext-only">${el.getAttribute('data-itemimg')}</p>`;
-	editor_tooltip_html += `<button onclick="itemdata_change('${el.getAttribute('id')}')">Submit</button>`
+	editor_tooltip_html += `<button onclick="itemdata_change('${el.getAttribute('id')}')">Apply</button>`
 	document.getElementById('tooltip').innerHTML = editor_tooltip_html;
 	document.getElementById('tooltip').style.opacity = 1;
 	document.getElementById('tooltip').style.display = 'block';

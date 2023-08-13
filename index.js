@@ -16,6 +16,10 @@ app.get('/editor', (req, res) => {
 	res.send(make_editor_html());
 });
 
+app.get('/browse', (req, res) => {
+	send_browse(res);
+});
+
 app.get('/editor/:id', (req, res) => {
 	db.get(req.params.id).then(value => {
 		if (value) {
@@ -23,10 +27,13 @@ app.get('/editor/:id', (req, res) => {
 		} else {
 			res.sendFile(__dirname + '/static/404.html');
 		}
-		
+
 	})
 });
 
+app.get('/tutorial', (req, res) => {
+	res.sendFile(__dirname + '/static/tutorial.html');
+});
 
 app.get('/list/:id', (req, res) => {
 	db.get(req.params.id).then(value => {
@@ -35,7 +42,7 @@ app.get('/list/:id', (req, res) => {
 		} else {
 			res.sendFile(__dirname + '/static/404.html');
 		}
-		
+
 	})
 })
 
@@ -54,7 +61,7 @@ app.listen(3000, () => {
 });
 
 app.all('*', (req, res) => {
-  res.status(404).sendFile(__dirname + '/static/404.html');
+	res.status(404).sendFile(__dirname + '/static/404.html');
 });
 
 function makelisthtml(val) {
@@ -87,17 +94,115 @@ function make_editor_html(data) {
 	listhtml += `<link rel="icon" type="image/x-icon" href="/static/favicon.png" />`
 	listhtml += "</head><body>";
 	listhtml += `<div id="content">`
-	listhtml += "<h1>Loading tier list...</h1>";
+	listhtml += "<h1>Loading tier list Editor...</h1>";
 	if (!data) {
 		listhtml += `<p style='display: none' id='data'>ewoJImRhdGEiOiB7CgkJInRpdGxlIjogIlRpZXIgTGlzdCBUaXRsZSIsCgkJImF1dGhvciI6ICJOYW1lIiwKCQkiZGVzY3JpcHRpb24iOiAiRGVzY3JpcHRpb24iLAoJICAgICJ2ZXJzaW9uIjogMSwKCSAgICAic2hvd3JhbmtpbmdzIjogImZhbHNlIiwKCQkiaW52ZXJ0Y29sb3JzIjogImZhbHNlIgoJfSwKCSJ0aWVycyI6IFt7CgkJCSJ0aWVybmFtZSI6ICJTIiwKCQkJInRpZXJjb2xvciI6ICIjMzczNzBhIiwKCQkJInRpZXJkYXRhIjogW3sKCQkJCQkibmFtZSI6ICJTYW1wbGUiLAoJCQkJCSJsaW5rIjogImh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9UjVZT1k4SnRnbmMiLAoJCQkJCSJkZXNjIjogIlJlbW92ZSB0aGlzIGlmIHlvdSB3YW50IiwKCQkJCQkiaW1hZ2UiOiAiaHR0cHM6Ly9paDAucmVkYnViYmxlLm5ldC9pbWFnZS4zNzcyMzkzNTAuOTUyOC9mbGF0LDgwMHg4MDAsMDc1LGYudTEuanBnIgoJCQkJfQoJCQldCgkJfSwgewoJCQkidGllcm5hbWUiOiAiQSIsCgkJCSJ0aWVyY29sb3IiOiAiIzE4MzgwYSIsCgkJCSJ0aWVyZGF0YSI6IFsKCQkJXQoJCX0sIHsKCQkJInRpZXJuYW1lIjogIkIiLAoJCQkidGllcmNvbG9yIjogIiMwYTM4MmEiLAoJCQkidGllcmRhdGEiOiBbCgkJCV0KCQl9LCB7CgkJCSJ0aWVybmFtZSI6ICJDIiwKCQkJInRpZXJjb2xvciI6ICIjMGExYTM4IiwKCQkJInRpZXJkYXRhIjogWwoJCQldCgkJfSwgewoJCQkidGllcm5hbWUiOiAiRCIsCgkJCSJ0aWVyY29sb3IiOiAiIzJjMGEzOCIsCgkJCSJ0aWVyZGF0YSI6IFsKCQkJXQoJCX0sIHsKCQkJInRpZXJuYW1lIjogIkYiLAoJCQkidGllcmNvbG9yIjogIiMzODBhMGEiLAoJCQkidGllcmRhdGEiOiBbCgkJCV0KCQl9CgldCn0K</p></div>`
 	} else {
 		listhtml += `<p style='display: none' id='data'>${data}</p></div>`
 	}
-	
+
 	listhtml += `<div id="footer"></div><div id="tooltip"></div>`
 	listhtml += `<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script><script src='/static/editor.js'></script></body></html>`
 	return listhtml;
 }
 
-//const sample = ``;
-//db.set("0", sample).then(() => { });
+async function make_browse_htmlbad() {
+	console.log("BUILDING BROWSE")
+	browsehtml = "<!DOCTYPE html><html><head>";
+	browsehtml += `<title>Browse | MTLM</title>`;
+	browsehtml += `<meta name="description" content="Browse user created Tier Lists">`;
+	browsehtml += `<meta content="Browse | MTLM" property="og:title" />`;
+	browsehtml += `<meta content="Browse user created Tier Lists" property="og:description" />`;
+	browsehtml += `<link href="/static/style.css" rel="stylesheet" type="text/css" />`;
+	browsehtml += `<link rel="icon" type="image/x-icon" href="/static/favicon.png" />`;
+	browsehtml += "</head><body>";
+	browsehtml += `<h1>Music Tier List Maker: Browse</h1>`;
+	browsehtml += `<p>Sorted by most recent. Currently a work in progress.</p>`;
+	db.list().then(keys => {
+		console.log(keys);
+		browse_data(keys).then(value => {
+			//browsehtml += value;
+			browsehtml += `</body></html>`;
+			console.log("\n\n");
+			console.log(browsehtml);
+			return browsehtml;
+		});
+
+
+	});
+}
+
+
+async function browse_databad(ind) {
+	bruh = "";
+	for (i = ind.length - 1; i >= 0; i--) {
+		console.log(`${i}: \n`);
+		let myPromise = new Promise(function(resolve) {
+			db.get(ind[i]).then(value => {
+				//console.log(value);
+				console.log("--------------");
+				let TLstring = Buffer.from(value, 'base64').toString('utf-8');
+				let TLobj = JSON.parse(TLstring);
+				//console.log(TLobj);
+				//bruh += `<p><a href="/list/${i}">${TLobj.title}</a> by ${TLobj.author}</p>`
+				resolve(`<p><a href="/list/${ind[i]}">${TLobj.data.title}</a> by ${TLobj.data.author}</p>`);
+			});
+		});
+
+		bruh += await myPromise;
+		console.log(bruh);
+	}
+	console.log("\n\n");
+	console.log(bruh);
+	resolve(bruh);
+}
+
+async function send_browse(res) {
+	let browse_datas = await make_browse_html();
+	//console.log("brose_datas: " + browse_datas);
+	res.send(browse_datas);
+}
+
+async function make_browse_html() {
+	browsehtml = "<!DOCTYPE html><html><head>";
+	browsehtml += `<title>Browse | MTLM</title>`;
+	browsehtml += `<meta name="description" content="Browse user created Tier Lists">`;
+	browsehtml += `<meta content="Browse | MTLM" property="og:title" />`;
+	browsehtml += `<meta content="Browse user created Tier Lists" property="og:description" />`;
+	browsehtml += `<link href="/static/style.css" rel="stylesheet" type="text/css" />`;
+	browsehtml += `<link rel="icon" type="image/x-icon" href="/static/favicon.png" />`;
+	browsehtml += "</head><body>";
+	browsehtml += `<div id="home_main">`;
+	browsehtml += `<h1>Music Tier List Maker: Browse</h1>`;
+	browsehtml += `<p>Sorted by most recent. Currently a work in progress.</p>`;
+	browsehtml += await make_browse_html2();
+	browsehtml += `</div id="home_main"><div id='footer'>`;
+	browsehtml += `<hr></hr><p>Music Tier List Maker by Colind8</p><a href="/">Create your own</a>`
+	browsehtml += `</div></body></html>`;
+	//console.log("finishing up...");
+	return browsehtml;
+}
+
+async function make_browse_html2() {
+	//console.log("Writing actual browse data...");
+	browsehtml2 = "";
+	keys = await db.list();
+	//console.log(keys);
+	for (i = keys.length - 1; i >= 0; i--) {
+		browsehtml2 += await make_browse_html3(keys[i]);
+	}
+	return browsehtml2;
+	//db.list().then(keys => {
+		
+	//});
+	
+}
+
+async function make_browse_html3(ind) {
+	//console.log("Adding a tier list...");
+	value = await db.get(ind);
+	let TLstring = Buffer.from(value, 'base64').toString('utf-8');
+	let TLobj = JSON.parse(TLstring);
+	//console.log(TLobj);
+	return `<p><a href="/list/${ind}">${TLobj.data.title}</a> by ${TLobj.data.author}</p>`;
+}

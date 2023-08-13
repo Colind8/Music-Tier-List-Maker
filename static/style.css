@@ -133,7 +133,7 @@ h2 {
 }
 
 
-img {
+.item img {
 	display: block;
 	max-width: 100px;
 	height: 100%;
@@ -324,6 +324,7 @@ button {
 	max-width: 1200px;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 1.25em;
 }
 
 .menu_item {
@@ -333,4 +334,9 @@ button {
 }
 .menu_item:hover {
 	list-style-type: disc;
+}
+
+.tutorial_img {
+	border: 2px gray solid;
+	max-width: 1200px;
 }
