@@ -22,9 +22,9 @@ function template_creator() {
 }
 
 function generate_content() {
-	contenthtml = `<h1 class="editable" contenteditable="plaintext-only" id='title'></h1>`;
-	contenthtml += `<h2 class="editable" contenteditable="plaintext-only" id='author'></h2>`;
-	contenthtml += `<p class="editable" contenteditable="plaintext-only" id='desc'></p>`;
+	contenthtml = `<h1 class="editable" contenteditable id='title'></h1>`;
+	contenthtml += `<h2 class="editable" contenteditable id='author'></h2>`;
+	contenthtml += `<p class="editable" contenteditable id='desc'></p>`;
 	contenthtml += `<div id='tierlist'></div>`;
 	contenthtml += "<div id='forms'></div>"
 	document.getElementById('content').innerHTML = contenthtml;
@@ -89,12 +89,12 @@ function generate_tierlist() {
 
 function generate_tooltip(el) {
 	let editor_tooltip_html = ``;
-	editor_tooltip_html += `<h3 id="tt_h" class="editable" contenteditable="plaintext-only">${el.getAttribute('data-itemname')}</h3>`;
-	editor_tooltip_html += `<p id="tt_p" class="editable" contenteditable="plaintext-only">${el.getAttribute('data-itemdesc')}</p>`;
+	editor_tooltip_html += `<h3 id="tt_h" class="editable" contenteditable>${el.getAttribute('data-itemname')}</h3>`;
+	editor_tooltip_html += `<p id="tt_p" class="editable" contenteditable>${el.getAttribute('data-itemdesc')}</p>`;
 	editor_tooltip_html += `<p>Link URL:</p>`
-	editor_tooltip_html += `<p id="tt_u" class="editable imglink" contenteditable="plaintext-only">${el.getAttribute('data-itemurl')}</p>`;
+	editor_tooltip_html += `<p id="tt_u" class="editable imglink" contenteditable>${el.getAttribute('data-itemurl')}</p>`;
 	editor_tooltip_html += `<p>Image URL:</p>`
-	editor_tooltip_html += `<p id="tt_i" class="editable imglink" contenteditable="plaintext-only">${el.getAttribute('data-itemimg')}</p>`;
+	editor_tooltip_html += `<p id="tt_i" class="editable imglink" contenteditable>${el.getAttribute('data-itemimg')}</p>`;
 	editor_tooltip_html += `<button onclick="itemdata_change('${el.getAttribute('id')}')">Apply</button>`
 	document.getElementById('tooltip').innerHTML = editor_tooltip_html;
 	document.getElementById('tooltip').style.opacity = 1;
@@ -281,7 +281,7 @@ function generate_tier_manager() {
 
 function generate_tier_manager_selected(selected_tier) {
 	tier_selectedhtml = ``;
-	tier_selectedhtml += `<h3><span contenteditable="plaintext-only" class="editable" id="tier_title_span">${TLobj.tiers[selected_tier].tiername}</span> tier</h3>`
+	tier_selectedhtml += `<h3><span contenteditable class="editable" id="tier_title_span">${TLobj.tiers[selected_tier].tiername}</span> tier</h3>`
 	tier_selectedhtml += `<input id="tier_edit_color" type="color" value="${TLobj.tiers[selected_tier].tiercolor}">`
 	tier_selectedhtml += `<button onclick="tier_edit_save(${selected_tier})">Apply Changes</button>`
 	if (document.getElementById('tier_manager_tiers').children.length > 1) {
