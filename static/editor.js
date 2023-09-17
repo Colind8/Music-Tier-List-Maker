@@ -11,7 +11,7 @@ function template_creator() {
 	if (document.getElementById('data').innerHTML == default_data) {
 		template_created = true;
 	}
-	
+
 
 	if (template_created == false) {
 		TLobj.data.description = `Created using ${TLobj.data.author}'s tier list`;
@@ -22,23 +22,23 @@ function template_creator() {
 }
 
 function generate_content() {
-	contenthtml = `<h1 class="editable" contenteditable id='title'></h1>`;
-	contenthtml += `<h2 class="editable" contenteditable id='author'></h2>`;
-	contenthtml += `<p class="editable" contenteditable id='desc'></p>`;
+	contenthtml = `<input class="editable header" id="title">`;
+	contenthtml += `<input class="editable header2" id="author">`;
+	contenthtml += `<textarea class="editable descrip" id="desc"></textarea>`;
 	contenthtml += `<div id='tierlist'></div>`;
 	contenthtml += "<div id='forms'></div>"
 	document.getElementById('content').innerHTML = contenthtml;
-	document.getElementById('title').innerHTML = TLobj.data.title;
-	document.getElementById('author').innerHTML = TLobj.data.author;
-	document.getElementById('desc').innerHTML = TLobj.data.description;
+	document.getElementById('title').value = TLobj.data.title;
+	document.getElementById('author').value = TLobj.data.author;
+	document.getElementById('desc').value = TLobj.data.description;
 	document.getElementById('footer').innerHTML = `<hr></hr><p>Music Tier List Maker by Colind8</p><a href="/">Create your own</a>`;
-	
+
 	if (template_created == false) {
 		generate_template_tierlist();
 	} else {
 		generate_tierlist();
 	}
-	
+
 }
 
 function generate_tierlist() {
@@ -89,13 +89,14 @@ function generate_tierlist() {
 
 function generate_tooltip(el) {
 	let editor_tooltip_html = ``;
-	editor_tooltip_html += `<h3 id="tt_h" class="editable" contenteditable>${el.getAttribute('data-itemname')}</h3>`;
-	editor_tooltip_html += `<p id="tt_p" class="editable" contenteditable>${el.getAttribute('data-itemdesc')}</p>`;
+	editor_tooltip_html += `<input id="tt_h" class="editable header3" value="${el.getAttribute('data-itemname')}">`;
+	editor_tooltip_html += `<textarea id="tt_p" class="editable itemdescrip">${el.getAttribute('data-itemdesc')}</textarea>`;
 	editor_tooltip_html += `<p>Link URL:</p>`
-	editor_tooltip_html += `<p id="tt_u" class="editable imglink" contenteditable>${el.getAttribute('data-itemurl')}</p>`;
+	editor_tooltip_html += `<input id="tt_u" class="editable imglink" value="${el.getAttribute('data-itemurl')}">`;
 	editor_tooltip_html += `<p>Image URL:</p>`
-	editor_tooltip_html += `<p id="tt_i" class="editable imglink" contenteditable>${el.getAttribute('data-itemimg')}</p>`;
+	editor_tooltip_html += `<input id="tt_i" class="editable imglink" value="${el.getAttribute('data-itemimg')}">`;
 	editor_tooltip_html += `<button onclick="itemdata_change('${el.getAttribute('id')}')">Apply</button>`
+	editor_tooltip_html += `<button onclick="clear_tooltip()">Cancel</button>`
 	document.getElementById('tooltip').innerHTML = editor_tooltip_html;
 	document.getElementById('tooltip').style.opacity = 1;
 	document.getElementById('tooltip').style.display = 'block';
@@ -144,16 +145,16 @@ function generate_sortables() {
 }
 
 function itemdata_change(item) {
-	let a = document.getElementById('tt_h').innerHTML;
+	let a = document.getElementById('tt_h').value;
 	document.getElementById(`${item}`).setAttribute('data-itemname', a);
 
-	let b = document.getElementById('tt_p').innerHTML;
+	let b = document.getElementById('tt_p').value;
 	document.getElementById(`${item}`).setAttribute('data-itemdesc', b);
 
-	let d = document.getElementById('tt_u').innerHTML;
+	let d = document.getElementById('tt_u').value;
 	document.getElementById(`${item}`).setAttribute('data-itemurl', d);
 
-	let c = document.getElementById('tt_i').innerHTML;
+	let c = document.getElementById('tt_i').value;
 	document.getElementById(`${item}`).setAttribute('data-itemimg', c);
 	document.getElementById(`${item}`).innerHTML = `<img src="${c}" alt="${a}" draggable="false" title="" style="">`
 
@@ -210,9 +211,9 @@ async function save_object() {
 	let tier_count = (document.getElementById('tierlist').childElementCount) / 2;
 	var newobj = {
 		data: {
-			title: document.getElementById('title').innerHTML,
-			author: document.getElementById('author').innerHTML,
-			description: document.getElementById('desc').innerHTML,
+			title: document.getElementById('title').value,
+			author: document.getElementById('author').value,
+			description: document.getElementById('desc').value,
 			version: 1,
 			showrankings: TLobj.data.showrankings,
 			invertcolors: TLobj.data.invertcolors
@@ -281,13 +282,15 @@ function generate_tier_manager() {
 
 function generate_tier_manager_selected(selected_tier) {
 	tier_selectedhtml = ``;
-	tier_selectedhtml += `<h3><span contenteditable class="editable" id="tier_title_span">${TLobj.tiers[selected_tier].tiername}</span> tier</h3>`
+	tier_selectedhtml += `<h3><textarea value="${TLobj.tiers[selected_tier].tiername}" class="editable" id="tier_title_span"></textarea> tier</h3>`
 	tier_selectedhtml += `<input id="tier_edit_color" type="color" value="${TLobj.tiers[selected_tier].tiercolor}">`
 	tier_selectedhtml += `<button onclick="tier_edit_save(${selected_tier})">Apply Changes</button>`
 	if (document.getElementById('tier_manager_tiers').children.length > 1) {
 		tier_selectedhtml += `<button onclick="tier_edit_delete(${selected_tier})">Delete Tier</button>`
 	}
 	document.getElementById('tier_manager_editor').innerHTML = tier_selectedhtml;
+	document.getElementById('tier_title_span').value = TLobj.tiers[selected_tier].tiername;
+
 
 	document.getElementById('tier_title_span').addEventListener('keydown', (evt) => {
 		if (evt.keyCode === 13) {
@@ -356,7 +359,7 @@ function tier_edit_save(tier_id) {
 	ctj_tiername = document.getElementById(`tiername${tier_id}`);
 
 	ctj_tiername.style.backgroundColor = document.getElementById('tier_edit_color').value;
-	ctj_tiername.children[0].innerText = document.getElementById('tier_title_span').innerText;
+	ctj_tiername.children[0].innerText = document.getElementById('tier_title_span').value;
 	ctj_tier.style.backgroundColor = document.getElementById('tier_edit_color').value;
 
 	if (ctj_tiername.children[0].innerText.length > 1) {

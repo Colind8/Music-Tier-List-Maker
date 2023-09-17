@@ -31,6 +31,11 @@ a:hover, .imglink:hover {
 	max-width: 300px;
 }
 
+#tooltip > button {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
 h1 {
 	font-size: 2em;
 }
@@ -179,14 +184,6 @@ button {
 
 .list-group-item {
 	cursor: move;
-}
-
-.editable {
-	border-bottom: dotted #cc6666 1px;
-}
-
-.editable:hover {
-	border-bottom: dotted #d09090 1px;
 }
 
 #forms {
@@ -339,4 +336,90 @@ button {
 .tutorial_img {
 	border: 2px gray solid;
 	max-width: 1200px;
+}
+
+/*
+
+>> Editor Inputs
+
+*/
+
+input {
+	font-family: Verdana, Helvetica, sans-serif;
+}
+
+.editable {
+	border-style: none;
+	border-bottom: dotted #cc6666 1px;
+	background-color: transparent;
+	padding: 2px;
+}
+
+.editable:hover {
+	border-bottom: dotted #d09090 1px;
+}
+
+.header {
+	color: #cfbfbf;
+	text-align: center;
+	font-size: 2em;
+	margin: 4px;
+	max-width: 900px;
+    width: 100%;
+}
+
+.header2 {
+	color: #cfbfbf;
+	text-align: center;
+	font-size: 1.25em;
+    font-style: italic;
+	max-width: 300px;
+    width: 100%;
+	margin: 4px;
+}
+
+.header3 {
+	color: #fff;
+	font-size: 1.17em;
+	font-weight: bold;
+	width: 100%;
+	margin-top: 18.72px;
+	margin-bottom: 5px;
+}
+
+.descrip {
+	color: #cfbfbf;
+	font-size: 1em;
+	max-width: 1200px;
+    width: 100%;
+	text-align: center;
+	font-family: Verdana, Helvetica, sans-serif;
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
+
+.itemdescrip {
+	color: #fff;
+	font-size: 1em;
+	width: 100%;
+	font-family: Verdana, Helvetica, sans-serif;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	max-width: 100%;
+}
+
+#tier_title_span {
+	color: #cfbfbf;
+	font-size: 1.17em;
+	padding: 0px;
+	height: 23px;
+	width: 30px;
+	font-weight: bold;
+}
+
+.imglink {
+	width: 100%;
+	display: block;
+	margin-top: 16px;
+	margin-bottom: 16px;
 }
