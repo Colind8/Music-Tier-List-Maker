@@ -13,7 +13,7 @@ function generate_content() {
 	document.getElementById('title').innerHTML = TLobj.data.title;
 	document.getElementById('author').innerHTML = TLobj.data.author;
 	document.getElementById('desc').innerHTML = TLobj.data.description;
-	document.getElementById('footer').innerHTML = `<hr></hr><p>Music Tier List Maker by Colind8</p><a href="/">Create your own</a><br /><a href="/editor/${window.location.href.slice(51)}">Use this Tier List as a template</a>`;
+	document.getElementById('footer').innerHTML = `<hr></hr><p>Music Tier List Maker by Colind8</p><a href="/">Create your own</a><br /><a href="/editor/${window.location.pathname.slice(6)}">Use this Tier List as a template</a>`;
 	generate_tierlist();
 }
 
