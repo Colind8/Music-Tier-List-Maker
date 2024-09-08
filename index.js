@@ -1,11 +1,10 @@
 const express = require('express');
 const app = express();
-const Database = require("@replit/database")
-const db = new Database()
+const sqlite = require('sqlite3').verbose();
+const db = new sqlite.Database('./mtlm.db', sqlite.OPEN_READWRITE | sqlite.OPEN_CREATE);
 app.use('/static', express.static(__dirname + '/static'));
 app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies
 app.use(express.json());       // to support JSON-encoded bodies
-
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/static/index.html');
@@ -21,14 +20,13 @@ app.get('/browse', (req, res) => {
 });
 
 app.get('/editor/:id', (req, res) => {
-	db.get(req.params.id).then(value => {
-		if (value) {
-			res.send(make_editor_html(value));
+	db.get(`SELECT * FROM TIERLISTS WHERE ID = ?`,[req.params.id], (error, results) => {
+		if (results) {
+			res.send(make_editor_html(results.DATA));
 		} else {
 			res.sendFile(__dirname + '/static/404.html');
 		}
-
-	})
+	});
 });
 
 app.get('/tutorial', (req, res) => {
@@ -36,29 +34,46 @@ app.get('/tutorial', (req, res) => {
 });
 
 app.get('/list/:id', (req, res) => {
-	db.get(req.params.id).then(value => {
-		if (value) {
-			res.send(makelisthtml(value));
+	db.get(`SELECT * FROM TIERLISTS WHERE ID = ?`,[req.params.id], (error, results) => {
+		if (results) {
+			res.send(makelisthtml(results.DATA));
 		} else {
 			res.sendFile(__dirname + '/static/404.html');
 		}
-
-	})
+	});
 })
 
 app.post('/editor/post', (req, res) => {
-	db.list().then(keys => {
+	/* db.list().then(keys => {
 		db.set(`${keys.length}`, req.body.tierlist_data).then(() => {
 			db.get(req.params.id).then(value => {
 				res.redirect(`/list/${keys.length}`);
 			})
 		})
-	})
+	}) */
+	try {
+		db.run(`INSERT INTO TIERLISTS (DATA) VALUES (?)`, [req.body.tierlist_data], (error) => {
+			db.get(`SELECT ID FROM TIERLISTS ORDER BY ID DESC LIMIT 1`,[], (error, results) => {
+				res.redirect(`/list/${results.ID}`)
+			});
+		});
+	} catch (error) {
+		throw error;
+	}
 })
 
 app.listen(3000, () => {
 	console.log('listening on *:3000');
+	get_ids();
 });
+
+function get_ids() {
+	db.all(`SELECT ID FROM TIERLISTS`,(error, results) => {
+		console.log(`Serving ${results.length} tier lists!`);
+	});
+	
+}
+
 
 app.all('*', (req, res) => {
 	res.status(404).sendFile(__dirname + '/static/404.html');
@@ -106,7 +121,7 @@ function make_editor_html(data) {
 	return listhtml;
 }
 
-async function make_browse_htmlbad() {
+/* async function make_browse_htmlbad() {
 	console.log("BUILDING BROWSE")
 	browsehtml = "<!DOCTYPE html><html><head>";
 	browsehtml += `<title>Browse | MTLM</title>`;
@@ -155,15 +170,9 @@ async function browse_databad(ind) {
 	console.log("\n\n");
 	console.log(bruh);
 	resolve(bruh);
-}
+}*/
 
 async function send_browse(res) {
-	let browse_datas = await make_browse_html();
-	//console.log("brose_datas: " + browse_datas);
-	res.send(browse_datas);
-}
-
-async function make_browse_html() {
 	browsehtml = "<!DOCTYPE html><html><head>";
 	browsehtml += `<title>Browse | MTLM</title>`;
 	browsehtml += `<meta name="description" content="Browse user created Tier Lists">`;
@@ -175,34 +184,16 @@ async function make_browse_html() {
 	browsehtml += `<div id="home_main">`;
 	browsehtml += `<h1>Music Tier List Maker: Browse</h1>`;
 	browsehtml += `<p>Sorted by most recent. Currently a work in progress.</p>`;
-	browsehtml += await make_browse_html2();
-	browsehtml += `</div id="home_main"><div id='footer'>`;
-	browsehtml += `<hr></hr><p>Music Tier List Maker by Colind8</p><a href="/">Create your own</a>`
-	browsehtml += `</div></body></html>`;
-	//console.log("finishing up...");
-	return browsehtml;
-}
-
-async function make_browse_html2() {
-	//console.log("Writing actual browse data...");
-	browsehtml2 = "";
-	keys = await db.list();
-	//console.log(keys);
-	for (i = keys.length - 1; i >= 0; i--) {
-		browsehtml2 += await make_browse_html3(keys[i]);
-	}
-	return browsehtml2;
-	//db.list().then(keys => {
-		
-	//});
+	db.all(`SELECT * FROM TIERLISTS ORDER BY ID DESC`,(error, results) => {
+		for (let i = 0; i < results.length; i++) {
+			let TLstring = Buffer.from(results[i].DATA, 'base64').toString('utf-8');
+			let TLobj = JSON.parse(TLstring);
+			browsehtml += `<p><a href="/list/${results[i].ID}">${TLobj.data.title}</a> by ${TLobj.data.author}</p>`;
+		}
+		browsehtml += `</div id="home_main"><div id='footer'>`;
+		browsehtml += `<hr></hr><p>Music Tier List Maker by Colind8</p><a href="/">Create your own</a>`
+		browsehtml += `</div></body></html>`;
+		res.send(browsehtml);
+	});
 	
-}
-
-async function make_browse_html3(ind) {
-	//console.log("Adding a tier list...");
-	value = await db.get(ind);
-	let TLstring = Buffer.from(value, 'base64').toString('utf-8');
-	let TLobj = JSON.parse(TLstring);
-	//console.log(TLobj);
-	return `<p><a href="/list/${ind}">${TLobj.data.title}</a> by ${TLobj.data.author}</p>`;
 }
