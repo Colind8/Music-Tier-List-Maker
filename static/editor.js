@@ -307,9 +307,9 @@ function update_tiers(evt) {
 	let tier_count = (document.getElementById('tierlist').childElementCount) / 2;
 	var newobj = {
 		data: {
-			title: document.getElementById('title').innerHTML,
-			author: document.getElementById('author').innerHTML,
-			description: document.getElementById('desc').innerHTML,
+			title: document.getElementById('title').value,
+			author: document.getElementById('author').value,
+			description: document.getElementById('desc').value,
 			version: 1,
 			showrankings: TLobj.data.showrankings,
 			invertcolors: TLobj.data.invertcolors
